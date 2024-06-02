@@ -1,5 +1,6 @@
+
 /* fuente principal */
-@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 * {
     margin: 0;
@@ -12,7 +13,7 @@
     --color-primary: #FF204E;
     --color-secondary: #A0153E;
     --color-three:#191919;
-    --font-family: "Oxygen", sans-serif;
+    --font-family: 'Montserrat', sans-serif;
 }
 
 /*  estilos barra scroll */
@@ -34,16 +35,21 @@
 
 /* ----------------------------------------------------------------- */
 
+/* body {
+    font-family: var(--font-family);
+} */
+
 body {
-    background-color: var(--color-three);
+	background: #f6f5f7;
     font-family: var(--font-family);
 }
+
 
 /*ESTILOS HEADER PARA ESCRITORIO*/
 
 
 .header {
-    background-color:var(--color-primary);
+    background: linear-gradient(to right, #FF4B2B, #FF416C);
     height: 100%;
     position: sticky;
     top: 0;
