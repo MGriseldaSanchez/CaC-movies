@@ -1,55 +1,52 @@
 //API the movieDB
 
-// Definimos la URL base de la API de The Movie DB
-const API_SERVER = 'https://api.themoviedb.org/3' //esto se cambiara por una api propia que tenga las peliculas en la base de mysql
+//URL de API de The Movie DB
+const API_SERVER = 'https://api.themoviedb.org/3' 
 
-// Opciones para las peticiones fetch a la API
+// Objeto con las opciones para el fetch
 const options = {
-    method: 'GET', // Método de la petición (GET)
+    method: 'GET', 
     headers: {
-        accept: 'application/json', // Tipo de respuesta esperada (JSON)
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTk0ODRlNTY5MGM5ZGIwMjBiMGQ1OWIyMzkwNjFiZiIsInN1YiI6IjY2MjU4NTZjNjNlNmZiMDE2NWZiYzlmNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MlBIoferekcyTO8Oeb0Oyvuso3Os2anfe8tp7sTyb0s'
+        accept: 'application/json', 
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOTk0ODRlNTY5MGM5ZGIwMjBiMGQ1OWIyMzkwNjFiZiIsInN1YiI6IjY2MjU4NTZjNjNlNmZiMDE2NWZiYzlmNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MlBIoferekcyTO8Oeb0Oyvuso3Os2anfe8tp7sTyb0s' // key de acceso
         
     }
 }
 
-// Función para crear elementos HTML
+// crear elemento html
 const createElement = (tag, className, attributes = {}) => {
-    // Creamos un nuevo elemento HTML del tipo especificado (tag)
+    // nuevo elemento HTML
     const element = document.createElement(tag)
     
-    // Si se especificó una clase, la añadimos al elemento
+    // si se especificó una clase
     if (className) {
         element.classList.add(className)
     }
-    
-    // Iteramos sobre los atributos pasados como argumento y los añadimos al elemento
+    // atributos se añaden al elemento
     Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value))
-    
-    // Devolvemos el elemento creado
     return element
-};
+}
 
-// Función para cargar películas en la cuadrícula de tendencias
+// cargar películas en contenedor
 const fetchMoviesGrid = async (page = 1) => {
-    // Realizamos una petición fetch a la API para obtener las películas populares
+    // fetch películas populares
     const response = await fetch(`${API_SERVER}/movie/popular?page=${page}`, options)
     
-    // Convertimos la respuesta a JSON
+    // Conversion a JSON
     const data = await response.json()
     
-    // Extraemos las películas de la respuesta
+    // peliculas extraidas
     const movies = data.results
 
-    // Seleccionamos el contenedor de películas de tendencia en el DOM
+    // contenedor 
     const tendenciasContainer = document.querySelector('.peliculasTendencia .peliculas');
     
-    // Limpiamos el contenido previo del contenedor
+    // clear contenido previo 
     tendenciasContainer.innerHTML = ''
 
-    // Iteramos sobre cada película obtenida
+    // recorrido sobre cada película
     movies.forEach(movie => {
-        // Creamos los elementos HTML para mostrar la película
+        // se crea los elementos HTML para mostrar la película
         const pelicula = createElement('div', 'pelicula')
         const anchor = createElement('a', '')
         anchor.href = './pages/detalle.html'
@@ -62,35 +59,34 @@ const fetchMoviesGrid = async (page = 1) => {
         const titulo = createElement('h4', '')
         titulo.textContent = movie.title
         
-        // Agregamos los elementos al DOM
         // Creamos un contenedor para la película dentro del enlace
-        tituloPelicula.appendChild(titulo); // Agregamos el título de la película al contenedor de título
-        pelicula.append(img, tituloPelicula); // Agregamos la imagen y el contenedor de título a la película
-        anchor.appendChild(pelicula); // Agregamos la película al enlace
-        const peliculaWrapper = createElement('div', 'peliculas') // Creamos un contenedor adicional para la película
-        peliculaWrapper.appendChild(anchor); // Agregamos el enlace con la película al contenedor adicional
-        tendenciasContainer.appendChild(peliculaWrapper); // Agregamos el contenedor adicional al contenedor de tendencias
+        tituloPelicula.appendChild(titulo); // título
+        pelicula.append(img, tituloPelicula); // imagen y contenedor de título a la película
+        anchor.appendChild(pelicula); // película al enlace
+        const peliculaWrapper = createElement('div', 'peliculas') // contenedor adicional para la película
+        peliculaWrapper.appendChild(anchor); // se agrega el enlace con la película al contenedor adicional
+        tendenciasContainer.appendChild(peliculaWrapper); // se agrega el contenedor adicional al contenedor de tendencias
     });
 
-    // Actualizamos el atributo data-page con el número de página actual
+    // Actualizar número de página actual
     tendenciasContainer.parentElement.setAttribute('data-page', page)
 }
 
-// Función para cargar películas en el carrusel de películas aclamadas
+// películas en el carrusel de películas aclamadas
 const fetchMoviesFlex = async () => {
-    // Realizamos una petición fetch a la API para obtener las películas más aclamadas
+    // las películas más aclamadas
     const response = await fetch(`${API_SERVER}/movie/top_rated`, options)
     
-    // Convertimos la respuesta a JSON
+   
     const data = await response.json()
     
-    // Extraemos las películas de la respuesta
+   
     const movies = data.results
 
-    // Seleccionamos el contenedor de películas aclamadas en el DOM
+    
     const aclamadasContainer = document.querySelector('.aclamadas')
     
-    // Iteramos sobre cada película obtenida
+    
     movies.forEach(movie => {
         // Creamos los elementos HTML para mostrar la película
         const peliculaItem = createElement('div', 'peliculaItem')
@@ -100,34 +96,34 @@ const fetchMoviesFlex = async () => {
             loading: 'lazy'
         });
         
-        // Agregamos los elementos al DOM
-        peliculaItem.appendChild(img) // Agregamos la imagen al contenedor de la película
-        aclamadasContainer.appendChild(peliculaItem) // Agregamos el contenedor de la película al contenedor de películas aclamadas
+        // add elementos 
+        peliculaItem.appendChild(img) 
+        aclamadasContainer.appendChild(peliculaItem) 
     })
 }
 
-// Event listener para el botón "Anterior"
+// Evento botón "Anterior"
 document.querySelector('.anterior').addEventListener('click', () => {
     // Obtener el número de página actual
     let currentPage = Number(document.querySelector('.peliculasTendencia').getAttribute('data-page'))
-    // Si es la primera página, no hacemos nada
+    // Si es la primera página
     if (currentPage <= 1) return
-    // Cargar las películas de la página anterior
+    //  películas de la página anterior
     fetchMoviesGrid(currentPage - 1)
 })
 
-// Event listener para el botón "Siguiente"
+// evento para el botón "Siguiente"
 document.querySelector('.siguiente').addEventListener('click', () => {
-    // Obtener el número de página actual
+    
     let currentPage = Number(document.querySelector('.peliculasTendencia').getAttribute('data-page'))
-    // Cargar las películas de la página siguiente
+    
     fetchMoviesGrid(currentPage + 1)
 })
 
-// Ejecutamos las funciones de carga de películas al cargar la página
+// invocacion de funciones principales al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    // Cargamos las películas en la cuadrícula de tendencias
+   
     fetchMoviesGrid()
-    // Cargamos las películas en el carrusel de películas aclamadas
+   
     fetchMoviesFlex()
 })
